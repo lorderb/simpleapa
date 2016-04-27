@@ -95,7 +95,7 @@ class SimpleAPA
      */
     public function search($keywords, $category = 'All', Array $responseGroups = ['Small'])
     {
-        $search = new Search()
+        $search = (new Search())
             ->setKeywords($keywords)
             ->setCategory($category)
             ->setResponseGroup($responseGroups);
