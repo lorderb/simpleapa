@@ -93,11 +93,12 @@ class SimpleAPA
      * @return null
      * @throws \Exception
      */
-    public function search($keywords, $category = 'All')
+    public function search($keywords, $category = 'All', Array $responseGroups = ['Small'])
     {
-        $search = new Search();
-        $search->setKeywords($keywords);
-        $search->setCategory($category);
+        $search = new Search()
+            ->setKeywords($keywords)
+            ->setCategory($category)
+            ->setResponseGroup($responseGroups);
 
         $response = $this->apaiIO->runOperation($search);
         return isset($response['Items']['Item']) ? $response['Items']['Item'] : null;
