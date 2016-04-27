@@ -3,6 +3,7 @@
 namespace Rootman\Simpleapa;
 
 use ApaiIO\Operations\Lookup;
+use ApaiIO\Operations\Search;
 use ApaiIO\ApaiIO;
 use Config;
 
@@ -84,6 +85,22 @@ class SimpleAPA
     {
         $response = $this->runImageLookup($asin);
         return isset($response['Items']['Item']['ImageSets']['ImageSet']) ? $response['Items']['Item']['ImageSets']['ImageSet'] : null;
+    }
+    
+    /**
+     * @param string $keywords
+     * @param string $category
+     * @return null
+     * @throws \Exception
+     */
+    public function search($keywords, $category = 'All')
+    {
+        $search = new Search();
+        $search->setKeywords($keywords);
+        $search->setCategory($category);
+
+        $response = $this->apaiIO->runOperation($search);
+        return isset($response['Items']['Item']) ? $response['Items']['Item'] : null;
     }
 
 }
