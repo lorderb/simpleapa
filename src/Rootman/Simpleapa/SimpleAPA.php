@@ -6,6 +6,7 @@ use ApaiIO\Operations\Lookup;
 use ApaiIO\Operations\Search;
 use ApaiIO\ApaiIO;
 use Config;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class SimpleAPA
@@ -87,21 +88,23 @@ class SimpleAPA
         return isset($response['Items']['Item']['ImageSets']['ImageSet']) ? $response['Items']['Item']['ImageSets']['ImageSet'] : null;
     }
     
+    
     /**
      * @param string $keywords
      * @param string $category
+     * @param array $responseGroups
+     * @param int $page
      * @return null
-     * @throws \Exception
      */
-    public function search($keywords, $category = 'All', Array $responseGroups = ['Small'])
+    public function search($keywords, $category = 'All', Array $responseGroups = ['Small'], $page = 1)
     {
         $search = (new Search())
             ->setKeywords($keywords)
             ->setCategory($category)
-            ->setResponseGroup($responseGroups);
+            ->setResponseGroup($responseGroups)
+            ->setPage($page);
 
         $response = $this->apaiIO->runOperation($search);
-        return isset($response['Items']['Item']) ? $response['Items']['Item'] : null;
+        return isset($response['Items']) ? $response['Items'] : null;
     }
-
 }
